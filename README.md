@@ -22,21 +22,25 @@ A fault-tolerant way to replicate an entire CouchDB cluster
 
     Options:
 
-      -c max-concurrency  The maximum number of concurrent replications. If this
-                          value is omitted then the max-concurrency is defaulted
-                          to 20.
+      -c max-concurrency        The maximum number of concurrent replications. If this
+                                value is omitted then the max-concurrency is defaulted
+                                to 20.
 
-      -i dbs-to-skip      A comma separated list of DBS to skip
+      -i dbs-to-skip            A comma separated list of DBS to skip
 
-      -a                  Use the target's _replicate API when replicating. This is
-                          particularly useful when you are trying to replicate from
-                          a remote source to localhost. By default, the source's
-                          _replicate API is used.
+      -o,--only dbs-to-include  A comma separated list of DBS to explicitly inlcude
 
-      -v                  Verbose
+      --continous               Trigger live replication
 
-      -d                  Debug info such as details of the requests and responses.
-                          Useful for determining why long replications are failing.
+      -a                        Use the target's _replicate API when replicating. This is
+                                particularly useful when you are trying to replicate from
+                                a remote source to localhost. By default, the source's
+                                _replicate API is used.
+
+      -v                        Verbose
+
+      -d                        Debug info such as details of the requests and responses.
+                                Useful for determining why long replications are failing.
 
     Examples:
 

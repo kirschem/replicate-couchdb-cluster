@@ -8,6 +8,14 @@ if [ "$SKIP" != "" ]; then
   SKIP="-i $SKIP"
 fi
 
+if [ "$ONLY" != "" ]; then
+  ONLY="-o $ONLY"
+fi
+
+if [ "$LIVE" != "" ]; then
+  LIVE="--continous"
+fi
+
 if [ "$USE_TARGET_API" != "" ]; then
   USE_TARGET_API="-a"
 fi
@@ -38,7 +46,7 @@ while [ "$loop" = "true" ]; do
   before=`date +"%s"`
 
   if [ "$skip" = "false" ]; then
-    /usr/local/bin/replicate-couchdb-cluster -s $SOURCE -t $TARGET $CONCURRENY $SKIP $USE_TARGET_API $VERBOSE $DEBUG
+    /usr/local/bin/replicate-couchdb-cluster -s $SOURCE -t $TARGET $CONCURRENY $SKIP $USE_TARGET_API $VERBOSE $DEBUG $LIVE $ONLY
   fi
 
   after=`date +"%s"`

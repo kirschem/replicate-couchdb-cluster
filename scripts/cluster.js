@@ -13,6 +13,8 @@ var Slouch = require('couch-slouch'),
 //   verbose
 //   useTargetAPI
 //   debug
+//   continous
+//   only
 var Cluster = function (params) {
   this._params = params;
 
@@ -37,10 +39,17 @@ Cluster.prototype._log = function (msg) {
   }
 };
 
+Cluster.prototype._shouldSkipDB = function (db) {
+  var self = this;
+  var skipped = self._params.skip && self._params.skip.indexOf(db) !== -1
+  var notIncluded = self._params.only && self._params.only.indexOf(db) === -1
+  return skipped || notIncluded
+}
+
 Cluster.prototype.replicate = function () {
   var self = this;
   return self._sourceSlouch.db.all().each(function (db) {
-    if (!self._params.skip || self._params.skip.indexOf(db) === -1) {
+    if (!self._shouldSkipDB(db)) {
       return self._replicateDB(db, db);
     }
   }, self._throttler);
@@ -75,7 +84,8 @@ Cluster.prototype._replicateRawDB = function (sourceDB, targetDB) {
   var slouch = this._params.useTargetAPI ? this._targetSlouch : this._sourceSlouch;
   return slouch.db.replicate({
     source: this._params.source + '/' + sourceDB,
-    target: this._params.target + '/' + targetDB
+    target: this._params.target + '/' + targetDB,
+    continous: !!this._params.continous
   });
 };
 
